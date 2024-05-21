@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+</head>
+<body>
+    <h1>Lista de Tareas</h1>
+    <form id="task-form">
+        <label for="task-id">ID de Tarea:</label>
+        <input type="text" id="task-id" name="task-id"><br>
+        <label for="task-name">Nombre de Tarea:</label>
+        <input type="text" id="task-name" name="task-name"><br>
+        <label for="task-deadline">Fecha Límite:</label>
+        <input type="date" id="task-deadline" name="task-deadline"><br>
+        <button type="submit">Crear Tarea</button>
+    </form>
+    <script>
+        document.getElementById('task-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const taskId = document.getElementById('task-id').value;
+            const taskName = document.getElementById('task-name').value;
+            const taskDeadline = document.getElementById('task-deadline').value;
+
+            fetch('/api/create-task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TaskId: taskId,
+                    Name: taskName,
+                    Deadline: taskDeadline
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Tarea creada exitosamente!');
+                } else {
+                    alert('Error al crear la tarea');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
